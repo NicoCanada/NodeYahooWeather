@@ -1,5 +1,6 @@
 // Require node-oauth package: npm install oauth
 require('dotenv').config();
+const fs = require('fs');
 
 var OAuth = require('oauth');
 var header = {
@@ -18,13 +19,16 @@ var request = new OAuth.OAuth(
 );
 // console.log(process.env.consumer_key);
 request.get(
-    'https://weather-ydn-yql.media.yahoo.com/forecastrss?location=Winnipeg,ca&u=c',
+    'https://weather-ydn-yql.media.yahoo.com/forecastrss?location=Winnipeg,ca&u=c&format=json',
     null,
     null,
     function (err, data, result) {
         if (err) {
             console.log(err);
         } else {
+            fs.writeFile('./weather.json',data, 'utf8', function(err){
+                console.log(err);
+            });
             console.log(data);
         }
     }
